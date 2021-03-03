@@ -81,6 +81,7 @@ const flashlightStyles = {
 		bottom: "740px",
 		right: "70px",
 		visibility: "visible",
+		opacity: "0.5",
 	},
 	s1: {
 		backgroundColor: "white",

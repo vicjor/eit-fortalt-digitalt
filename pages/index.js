@@ -4,24 +4,34 @@ import axios from "axios";
 import Flashlight from "../components/Flashlight";
 import Sun from "../components/Sun";
 import ExploreIcon from "@material-ui/icons/Explore";
-import { IconButton, Icon } from "@material-ui/core";
+import { IconButton, Icon, Modal } from "@material-ui/core";
 import texts from "../public/texts";
+import Image from "next/image";
 
-export default function Home({ data, date }) {
-	const [tempData, setData] = useState(data);
+export default function Home({ temperature, date }) {
+	const [tempData, setTempData] = useState(temperature);
+	// const [luxData, setLuxData] = useState(lux);
 	const [temp, setTemp] = useState([]);
+	const [switchBackground, setSwitchBackground] = useState(false);
+	// const [lux, setLux] = useState([]);
 
-	useEffect(() => {
-		renderTemperature();
-	}, []);
+	useEffect(() => {}, [switchBackground]);
 
-	async function renderTemperature() {
+	function switchColor() {
+		if (switchBackground) {
+			setSwitchBackground(false);
+		} else {
+			setSwitchBackground(true);
+		}
+	}
+
+	function renderTemperature() {
 		if (tempData) {
 			// document.body.style = "color: white";
 
 			setTemp(
 				<ul>
-					{data.map((x) => (
+					{tempData.map((x) => (
 						<li key={x.date} style={{ margin: "1em" }}>
 							<strong>{String(x.date).slice(11, 16)} </strong>
 							{Math.round(x.value)}º
@@ -39,40 +49,56 @@ export default function Home({ data, date }) {
 				display: "grid",
 				gridTemplateColumns: "30% 30% 40%",
 				gridTemplateRows: "20% 40% 40%",
+				backgroundColor: switchBackground ? "#000000" : "#FAFAFA",
 			}}>
-			<Head>
-				<title>Forholdene ute</title>
-				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
-			</Head>
 			<div style={{ margin: "1em" }}>
 				<TextSnippet texts={texts} />
-				<h1>Temperaturmålinger i Adressaparken</h1>
-				<h2>{date ?? date}</h2>
-				{temp && temp}
-				<MapButton />
 			</div>
+			<MapButton />
 			<Sun />
-			<Flashlight />
+			<Flashlight switchColor={switchColor} />
 		</div>
 	);
 }
 function MapButton() {
 	const [showButton, setShowButton] = useState(true);
+
+	const handleOpen = () => {
+		setShowButton(false);
+	};
+	const handleClose = () => {
+		setShowButton(true);
+	};
 	if (showButton) {
 		return (
 			<IconButton
 				style={{
 					transform: "scale(3)",
-					left: "2em",
+					right: "2em",
 					bottom: "2em",
 					position: "fixed",
 				}}
-				onClick={() => setShowButton(!showButton)}>
+				onClick={handleOpen}>
 				<ExploreIcon fontSize="large" />
 			</IconButton>
 		);
 	} else {
-		return <></>;
+		return (
+			<Modal
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					justifyContent: "center",
+					gap: "1ch",
+				}}
+				open={true}
+				onClose={handleClose}>
+				<h1>
+					<Image src="/Trondheim-kart.jpg" width={500} height={500}></Image>
+				</h1>
+			</Modal>
+		);
 	}
 }
 
@@ -80,7 +106,7 @@ function TextSnippet({ texts }) {
 	let randomInt = Math.floor(Math.random() * Object.keys(texts).length);
 	let text = texts[randomInt];
 	return (
-		<div>
+		<div style={{ zIndex: "1", position: "fixed" }}>
 			<h3>{text.title}</h3>
 			<p>{text.text}</p>
 			<p style={{ fontStyle: "italic" }}>{text.author}</p>
@@ -91,14 +117,17 @@ function TextSnippet({ texts }) {
 export async function getServerSideProps(context) {
 	let limit = 20;
 
-	let response = await fetch(
+	let temp = await fetch(
 		`https://api.adressaparken.no/v1/sensorDataList?limit=${limit}&offset=0&sensor=TC`
-	);
-	let temp = await response.json();
+	).then((res) => res.json());
+	let lux = await fetch(
+		`https://api.adressaparken.no/v1/sensorDataList?limit=${limit}&offset=0&sensor=LUX`
+	).then((res) => res.json());
 	let date = new Date().toDateString();
 	return {
 		props: {
-			data: temp,
+			temperature: temp,
+			lux: lux,
 			date: date,
 		},
 	};

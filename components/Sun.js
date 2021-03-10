@@ -5,7 +5,7 @@ import styles from "./Sun.module.scss";
 export default function Sun() {
 	return (
 		<Draggable>
-			<div className={styles.sun}></div>
+			<div className={styles.sun} style={{ opacity: "50%" }}></div>
 		</Draggable>
 	);
 }

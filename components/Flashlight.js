@@ -3,13 +3,14 @@ import { render } from "react-dom";
 import Draggable from "react-draggable";
 
 // Inspired by https://codingartistweb.com/2020/08/interactive-flashlight-html-css-javascript/
-export default function Flashlight() {
+export default function Flashlight({ switchColor }) {
 	const [isGlowing, setIsGlowing] = useState(false); // Initially off
 
 	useEffect(() => {}, [isGlowing]);
 
 	function handleClick() {
 		setIsGlowing(!isGlowing);
+		switchColor();
 	}
 	return (
 		<Draggable defaultPosition={{ x: 200, y: 600 }}>

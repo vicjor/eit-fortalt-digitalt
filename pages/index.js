@@ -9,7 +9,7 @@ import { IconButton, Icon, Modal } from "@material-ui/core";
 import texts from "../public/texts";
 import Image from "next/image";
 
-export default function Home({ temperature, air }) {
+export default function Home({ temperature, air, date }) {
 	const [tempData, setTempData] = useState(temperature);
 	// const [luxData, setLuxData] = useState(lux);
 	const [temp, setTemp] = useState([]);
@@ -74,6 +74,10 @@ export default function Home({ temperature, air }) {
 				backgroundColor: switchBackground ? "#0E120F" : "#FAFAFA",
 				backgroundImage: `url(${process.env.NEXT_PUBLIC_URL}/Bildefiler/${backgroundFile})`,
 			}}>
+			<div style={{ margin: "1em" }}>
+				<h1>Dette er forholdene ute innenfra</h1>
+				<h3>Forsøk å skru på lommelykten og flytt den rundt</h3>
+			</div>
 			<div style={{ margin: "1em" }}>
 				<TextSnippet texts={texts} />
 			</div>
@@ -166,6 +170,7 @@ export async function getServerSideProps(context) {
 			temperature: temp,
 			lux: lux,
 			air: air,
+			date: date,
 		},
 	};
 }

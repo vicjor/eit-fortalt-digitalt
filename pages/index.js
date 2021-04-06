@@ -32,17 +32,17 @@ export default function Home({ temperature, air }) {
 	function setBackground() {
 		if (air[0].value < 0.5) {
 			setbackgroundFile("01-svevestøv.png");
-		} else if (air[0].value > 0.5 && air[0].value < 0.6) {
+		} else if (air[0].value > 0.5 && air[0].value < 1) {
 			setbackgroundFile("03-svevestøv.png");
-		} else if (air[0].value > 0.6 && air[0].value < 0.7) {
+		} else if (air[0].value > 1 && air[0].value < 10) {
 			setbackgroundFile("03-svevestøv.png");
-		} else if (air[0].value > 0.7 && air[0].value < 0.8) {
+		} else if (air[0].value > 10 && air[0].value < 20) {
 			setbackgroundFile("03-svevestøv.png");
-		} else if (air[0].value > 0.9 && air[0].value < 0.9) {
+		} else if (air[0].value > 20 && air[0].value < 30) {
 			setbackgroundFile("10-svevestøv.png");
-		} else if (air[0].value > 1 && air[0].value < 1.1) {
+		} else if (air[0].value > 30 && air[0].value < 40) {
 			setbackgroundFile("14-svevestøv.png");
-		} else if (air[0].value > 1.1) {
+		} else if (air[0].value > 40) {
 			setbackgroundFile("17-svevestøv.png");
 		}
 	}
@@ -72,7 +72,7 @@ export default function Home({ temperature, air }) {
 				gridTemplateColumns: "30% 30% 40%",
 				gridTemplateRows: "20% 40% 40%",
 				backgroundColor: switchBackground ? "#0E120F" : "#FAFAFA",
-				backgroundImage: `url(./Bildefiler/${backgroundFile})`,
+				backgroundImage: `url(${process.env.NEXT_PUBLIC_URL}/Bildefiler/${backgroundFile})`,
 			}}>
 			<div style={{ margin: "1em" }}>
 				<TextSnippet texts={texts} />
@@ -158,7 +158,7 @@ export async function getServerSideProps(context) {
 		`https://api.adressaparken.no/v1/sensorDataList?limit=${limit}&offset=0&sensor=LUX`
 	).then((res) => res.json());
 	let air = await fetch(
-		`https://api.adressaparken.no/v1/sensorDataList?limit=${limit}&offset=0&sensor=NO2`
+		`https://api.adressaparken.no/v1/sensorDataList?limit=${limit}&offset=0&sensor=PM10`
 	).then((res) => res.json());
 	let date = new Date().toDateString();
 	return {

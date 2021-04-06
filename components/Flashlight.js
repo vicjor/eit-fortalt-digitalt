@@ -50,7 +50,7 @@ const flashlightStyles = {
 	},
 	button: {
 		height: "40px",
-		width: "40px;",
+		width: "40px",
 		backgroundColor: "white",
 		position: "relative",
 		top: "80px",

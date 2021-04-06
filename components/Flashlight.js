@@ -13,7 +13,7 @@ export default function Flashlight({ switchColor }) {
 		switchColor();
 	}
 	return (
-		<Draggable defaultPosition={{ x: 200, y: 600 }}>
+		<Draggable defaultPosition={{ x: 600, y: 100 }}>
 			<div style={flashlightStyles.container}>
 				<div style={flashlightStyles.flashlight}>
 					<div style={flashlightStyles.upper}>

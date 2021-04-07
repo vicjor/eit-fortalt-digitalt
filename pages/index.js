@@ -35,9 +35,9 @@ export default function Home({ temperature, air, date }) {
 		} else if (air[0].value > 0.5 && air[0].value < 1) {
 			setbackgroundFile("03-svevestøv.png");
 		} else if (air[0].value > 1 && air[0].value < 10) {
-			setbackgroundFile("03-svevestøv.png");
+			setbackgroundFile("05-svevestøv.png");
 		} else if (air[0].value > 10 && air[0].value < 20) {
-			setbackgroundFile("03-svevestøv.png");
+			setbackgroundFile("07-svevestøv.png");
 		} else if (air[0].value > 20 && air[0].value < 30) {
 			setbackgroundFile("10-svevestøv.png");
 		} else if (air[0].value > 30 && air[0].value < 40) {

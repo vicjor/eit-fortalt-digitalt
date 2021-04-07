@@ -14,7 +14,7 @@ export default function Home({ temperature, air, date }) {
 	// const [luxData, setLuxData] = useState(lux);
 	const [temp, setTemp] = useState([]);
 	const [switchBackground, setSwitchBackground] = useState(false);
-	const [backgroundFile, setbackgroundFile] = useState("svevestov.png");
+	const [backgroundFile, setbackgroundFile] = useState("01-svevestøv.png");
 	// const [lux, setLux] = useState([]);
 
 	useEffect(() => {
